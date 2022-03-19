@@ -21,6 +21,8 @@ async def getAllReservations(db : Session = Depends(get_db)):
     reservations = DBoperations.getAllReservations(db = db)
     return reservations
 
+
+
 @router.get("/{public_id}")
 async def getReservation(public_id, db : Session = Depends(get_db)):
     reservation = DBoperations.getReservationByID(db = db, publicId=public_id)

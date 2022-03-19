@@ -147,3 +147,16 @@ def getFloorByID(db: Session, publicId: str):
 
 def getRoomsByFloor(db: Session, floorId: str):
     return db.query(Models.Room).filter(Models.Room.floorId == floorId).all()
+
+def createEquipment(db : Session, equipment = Schemas.CreateEquipment):
+    public_id = str(uuid.uuid4())
+    dbEquipment = Models.Equipment(publicId = public_id, equipment = equipment.equipmentName, workstationId = equipment.workstationId)
+    db.add(dbEquipment)
+    db.commit()
+    return dbEquipment
+
+def getAllEquipment(db : Session):
+    return db.query(Models.Equipment).all()
+
+def getEquipmentByID(db : Session, publicId: str):
+    return db.query(Models.Equipment).filter(Models.Equipment.publicId == publicId).first()
