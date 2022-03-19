@@ -44,7 +44,12 @@ def updateTeam(db: Session, publicId: str):
 def getAllTeams(db: Session):
     return db.query(Models.Team).all()
 
+#not yet updated
 def getTeamByID(db: Session, publicId: str):
+    #get the team and all users in that team
+    
+    usersInTeam = []
+
     return db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
 
 def deleteTeam(db: Session, publicId: str):
