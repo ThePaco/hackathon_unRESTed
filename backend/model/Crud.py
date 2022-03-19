@@ -16,14 +16,17 @@ def createUser(user: CreateUser, db: Session):
     db.commit()
     return dbUser
 
-def updateUser():
-    pass
+def updateUserTeam(db: Session, userPublicID: str, teamPublicId : str):
+    dbUser = db.query(Models.Person).filter(Models.Person.publicId == userPublicID).first()
+    dbUser.teamID = teamPublicId
+    db.commit()
+    return dbUser
 
-def getUserByID(db: Session, publicId: int):
+def getAllUsers(db: Session):
+    return db.query(Models.Person).all()
+
+def getUserByID(db: Session, publicId: str):
     return db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
-
-def getAllUsers():
-    pass
 
 def createTeam(team: Team, db:Session):
     public_id = str(uuid.uuid4())
@@ -32,11 +35,15 @@ def createTeam(team: Team, db:Session):
     db.commit()
     return dbTeam
 
+#not implemented/used
 def updateTeam():
     pass
 
-def getAllTeams():
-    pass
+def getAllTeams(db: Session):
+    return db.query(Models.Team).all()
+
+def getTeamByID(db: Session, publicId: str):
+    return db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
 
 def createReservation(reservation: Reservation, db: Session):
     public_id = str(uuid.uuid4())
@@ -44,3 +51,29 @@ def createReservation(reservation: Reservation, db: Session):
     db.add(dbReservation)
     db.commit()
     return dbReservation
+
+def getAllReservations(db: Session):
+    return db.query(Models.Reservation).all()
+
+def getReservationByID(db: Session, publicId: str):
+    return db.query(Models.Reservation).filter(Models.Reservation.publicId == publicId).first()
+
+
+#HARDCODED TABLES - no create()
+def getAllRooms(db: Session):
+    return db.query(Models.Room).all()
+
+def getRoomByID(db: Session, publicId: str):
+    return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+
+def getAllWorkstations(db: Session):
+    return db.query(Models.Workstation).all()
+
+def getWorkstationByID(db: Session, publicId: str):
+    return db.query(Models.Workstation).filter(Models.Workstation.publicId == publicId).first()
+
+def getAllFloors(db: Session):
+    return db.query(Models.Floor).all()
+
+def getFloorByID(db: Session, publicId: str):
+    return db.query(Models.Floor).filter(Models.Floor.publicId == publicId).first()
