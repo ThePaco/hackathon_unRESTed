@@ -6,8 +6,12 @@ from sqlalchemy.orm import Session
 from model import Crud, Models, Schemas
 from model.Database import SessionLocal, engine
 
+
+#Models.Base.metadata.create_all(bind=engine) #UNCOMMENT TO REBUILD DATABASE
 router = APIRouter()
 
+
+#Dependency
 def get_db():
     db = SessionLocal()
     try:
