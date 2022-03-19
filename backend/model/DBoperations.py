@@ -1,8 +1,9 @@
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
-import Models
-from Schemas import *
+
+from model import Models
+from model import Schemas
 
 #library of functions for creating, updating, searching and deleting db entries
 def createUser(db: Session, user: CreateUser):

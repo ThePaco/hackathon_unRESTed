@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.model.Schemas import PatchRoom
+from model.Schemas import PatchRoom
 from model import Models
 from model import DBoperations
 from model.Database import SessionLocal,engine
@@ -18,7 +18,7 @@ def get_db():
 
 
 @router.get("/")
-async def getAllRooms(db : Session):
+async def getAllRooms(db : Session = Depends(get_db)):
     rooms = DBoperations.getAllRooms(db = db)
     return rooms
 

@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Time
+from xmlrpc.client import DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 import datetime
 
@@ -51,8 +52,8 @@ class Reservation(Base):
     id = Column(Integer, primary_key = True)
     publicId = Column(String(50), unique = True)
     roomId = Column(String(50), nullable = False)
-    reservationStart = Column(Time, nullable = False)
-    reservationEnd = Column(Time, nullable = False)
+    reservationStart = Column(DateTime, nullable = False)
+    reservationEnd = Column(DateTime, nullable = False)
 
 class Floor(Base):
     __tablename__ = "Floor"
