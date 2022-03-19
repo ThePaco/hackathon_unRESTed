@@ -111,7 +111,7 @@ def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
     dbRoom.isAssigned = isAssigned
     db.commit()
     return dbRoom
-  
+
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
 
@@ -119,7 +119,7 @@ def getRoomByID(db: Session, publicId: str):
 
 def createWorkstation(db: Session, workstation: Schemas.CreateWorkstation):
     public_id = str(uuid.uuid4())
-    dbWorkstation = Models.Room(publicId = public_id, workstationName = Schemas.CreateWorkstation.workstationName, roomId = CreateWorkstation.roomId)
+    dbWorkstation = Models.Room(publicId = public_id, workstationName = Schemas.CreateWorkstation.workstationName, roomId = Schemas.CreateWorkstation.roomId)
     db.add(dbWorkstation)
     db.commit()
     return dbWorkstation
@@ -134,7 +134,7 @@ def getWorkstationByID(db: Session, publicId: str):
 
 def createFloor(db: Session, floor: Schemas.CreateFloor):
     public_id = str(uuid.uuid4())
-    dbFloor = Models.Room(publicId = public_id, floorNumber = floor.floorNumber)
+    dbFloor = Models.Floor(publicId = public_id, floorNumber = floor.floorNumber)
     db.add(dbFloor)
     db.commit()
     return dbFloor
