@@ -1,10 +1,7 @@
 import hashlib
-import os
 import uuid
-from fastapi import UploadFile
 from sqlalchemy.orm import Session
-from backend.model.Models import Reservation, Team
-from model import Models
+import Models
 from model.Schemas import CreateUser, PatchUserForm
 
 def createUser(user: CreateUser, db: Session):
@@ -34,7 +31,7 @@ def deleteUser(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
-def createTeam(team: Team, db:Session):
+def createTeam(team: Models.Team, db:Session):
     public_id = str(uuid.uuid4())
     dbTeam = Models.Team(publicId = public_id, teamName = team.teamName)
     db.add(dbTeam)
@@ -57,7 +54,7 @@ def deleteTeam(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
-def createReservation(reservation: Reservation, db: Session):
+def createReservation(reservation: Models.Reservation, db: Session):
     public_id = str(uuid.uuid4())
     dbReservation = Models.Reservation(publicId = public_id, roomId = reservation.roomId, reservationStart = reservation.reservationStart, reservationEnd = reservation.reservationEnd)
     db.add(dbReservation)
