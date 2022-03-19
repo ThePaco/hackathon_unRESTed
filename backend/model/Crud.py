@@ -3,18 +3,19 @@ import os
 import uuid
 from fastapi import UploadFile
 from sqlalchemy.orm import Session
-from backend.model.Models import Reservation, Team
+from model.Models import Reservation, Team
 from model import Models
-from model.Schemas import CreateUser, PatchUserForm
+from model.Schemas import CreateUser
 
-def getUserByID(db: Session, publicId: int):
+def getUserByID(db: Session, publicId: str):
     return db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
 
 def createUser(user: CreateUser, db: Session):
+    
     passw_encoded = user.password.encode()
     password_sha256 = hashlib.sha256(passw_encoded).hexdigest()
     public_id = str(uuid.uuid4())
-    dbUser = Models.Person(publicId = public_id, firstName = user.firstName, lastName = user.lastName, isAdmin = False, role = user.role, teamID = user.teamId, email = user.email, password = password_sha256)
+    dbUser = Models.Person(publicId = public_id, firstName = user.firstName, lastName = user.lastName, isAdmin = False, role = user.role, teamId = user.teamId, email = user.email, password = password_sha256)
     db.add(dbUser)
     db.commit()
     return dbUser

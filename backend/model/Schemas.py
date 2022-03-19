@@ -9,7 +9,6 @@ class Login(BaseModel):
 class CreateUser(BaseModel):
     firstName: str
     lastName: str
-    isAdmin: Boolean
     role: str
     teamId: str
     email: str

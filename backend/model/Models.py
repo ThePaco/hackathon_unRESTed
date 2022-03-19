@@ -8,7 +8,7 @@ class Person(Base):
     __tablename__ = "Person"
 
     id = Column(Integer, primary_key = True)
-    publicId = Column(String(50), unqiue = True)
+    publicId = Column(String(50), unique = True)
     firstName = Column(String(40), nullable = False)
     lastName = Column(String(40), nullable = False)
     isAdmin = Column(Boolean, nullable = False)

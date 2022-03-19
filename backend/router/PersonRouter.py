@@ -17,9 +17,9 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/{person_id}")
+@router.get("/{public_id}")
 async def getUserById (user : CreateUser, public_id, db : Session = Depends(get_db)):
-    user = Crud.getUserByID(db, publicId=public_id)
+    user = Crud.getUserByID(db = db, publicId=public_id)
     return {"publicId":user.publicId, "response": "GET person"}
 
 
