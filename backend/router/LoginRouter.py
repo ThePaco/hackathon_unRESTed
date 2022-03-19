@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import imp
 from fastapi import APIRouter, Depends, HTTPException
 from model.Schemas import Login
 from sqlalchemy.orm import Session
@@ -23,7 +24,7 @@ def get_db():
 async def postLogin(loginData : Login, db : Session = Depends(get_db)):
     password_encoded = loginData.password.encode()
     password_sha256 = hashlib.sha256(password_encoded).hexdigest()
-    person = DBoperations.getLogin(db, password_sha256, loginData.email)
+    person = Login.login(db, password_sha256, loginData.email)
 
     if person:
         return {'response': 'Logged in'}

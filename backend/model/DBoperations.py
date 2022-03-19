@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 import Models
 from model.Schemas import CreateUser
 
+#library of functions for creating, updating, searching and deleting db entries
 def createUser(db: Session, user: CreateUser):
     passw_encoded = user.password.encode()
     password_sha256 = hashlib.sha256(passw_encoded).hexdigest()
@@ -70,6 +71,9 @@ def getAllReservations(db: Session):
 
 def getReservationByID(db: Session, publicId: str):
     return db.query(Models.Reservation).filter(Models.Reservation.publicId == publicId).first()
+
+def getReservationsForRoom(db:Session, roomId: str):
+    return db.query(Models.Reservation).filter(Models.Reservation.roomId == roomId).all()
 
 def deleteReservation(db: Session, publicId: str):
     pass
