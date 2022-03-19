@@ -44,12 +44,13 @@ def updateTeam(db: Session, publicId: str):
 def getAllTeams(db: Session):
     return db.query(Models.Team).all()
 
-#not yet updated
+#evo ti tomislave snalazi se u ovome, i prije nego sto mi prigovaras podsjecam te da si ti ovako zelio
+#ps. u slucaju da tereza/ana ovo cita, tomislav ti je ovo uvalio, ne ja :(
 def getTeamByID(db: Session, teamPublicId: str):
-    #get the team and all users in that team
-    db.query(Models.Person).filter(Models.Person.teamId == teamPublicId)
-    usersInTeam = []
-    return db.query(Models.Team).filter(Models.Team.publicId == teamPublicId).first()
+    #get the team and all users in that team but it do be just concatenating json files
+    team = db.query(Models.Team).filter(Models.Team.publicId == teamPublicId).first()
+    usersInTeam = db.query(Models.Person).filter(Models.Person.teamId == teamPublicId).all()
+    return team + usersInTeam
 
 def deleteTeam(db: Session, publicId: str):
     dbUser = db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
