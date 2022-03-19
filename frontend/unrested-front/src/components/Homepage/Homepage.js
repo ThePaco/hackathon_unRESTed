@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Homepage.scss';
+import axios from 'axios';
 
 const Homepage = () => {
+   useEffect(() => {
+     axios.get('http://localhost:4000/floor').then((val) => setFloors(val.data));
+   }, [])
    const [floors, setFloors] = useState([1, 2, 3, 4]);
-   const floorList = floors.map((i) => {
+   const floorList = floors.map((floor) => {
       return (
-         <button key={i} className="button-slanted button-default waves-light btn">Slanted Button with super long text</button>
+         <button key={floor.id} className="button-slanted button-default waves-light btn">{floor.floorNumber}</button>
       )
    })
    return (
