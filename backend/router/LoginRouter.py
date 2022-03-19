@@ -2,7 +2,6 @@ import hashlib
 from fastapi import APIRouter, Depends, HTTPException
 from model.Schemas import Login
 from sqlalchemy.orm import Session
-from model import Login
 from model.Database import SessionLocal, engine
 
 

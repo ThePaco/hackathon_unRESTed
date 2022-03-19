@@ -1,9 +1,9 @@
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
-from Models import *
-from Schemas import *
-
+from model import Models
+from model import Schemas
+from model.Schemas import *
 #library of functions for creating, updating, searching and deleting db entries
 def createUser(db: Session, user: CreateUser):
     passw_encoded = user.password.encode()

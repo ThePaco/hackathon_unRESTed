@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter
+from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -36,4 +36,5 @@ app.include_router(PersonRouter.router, prefix="/person", tags=["person"])
 app.include_router(FloorRouter.router, prefix="/floor", tags=["floor"])
 app.include_router(RoomRouter.router, prefix="/room", tags=["room"])
 app.include_router(TeamRouter.router, prefix="/team", tags=["team"])
+app.include_router(ReservationRouter.router, prefix="/reservation", tags=["reservation"])
 

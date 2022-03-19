@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from model.Schemas import GetReservation
 from model.Schemas import CreateReservation
 from model import DBoperations
 from model.Database import SessionLocal,engine
