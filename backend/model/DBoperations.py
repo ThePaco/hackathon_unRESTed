@@ -1,8 +1,8 @@
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
-from model import Models
-from model.Schemas import CreateUser
+from Models import *
+from Schemas import *
 
 #library of functions for creating, updating, searching and deleting db entries
 def createUser(db: Session, user: CreateUser):
@@ -14,31 +14,32 @@ def createUser(db: Session, user: CreateUser):
     db.commit()
     return dbUser
 
-def updateUserTeam(db: Session, userPublicID: str, teamPublicId : str):
-    dbUser = db.query(Models.Person).filter(Models.Person.publicId == userPublicID).first()
-    dbUser.teamID = teamPublicId
+def updateUserTeam(db: Session, user: UpdateUserTeam):
+    dbUser = db.query(Models.Person).filter(Models.Person.publicId == user.userPublicId).first()
+    dbUser.teamId = user.teamPublicId
     db.commit()
     return dbUser
 
 def getAllUsers(db: Session):
     return db.query(Models.Person).all()
 
-def getUserByID(db: Session, publicId: str):
-    return db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
+def getUserByID(db: Session, user: GetUserById):
+    return db.query(Models.Person).filter(Models.Person.publicId == user.publicId).first()
 
-def deleteUser(db: Session, publicId: str):
-    dbUser = db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
+def deleteUser(db: Session, user: GetUserById):
+    dbUser = db.query(Models.Person).filter(Models.Person.publicId == user.publicId).first()
     db.delete(dbUser)
     db.commit()
     return(dbUser)
 
-def createTeam(db: Session, team: Models.Team):
+def createTeam(db: Session, team: CreateTeam):
     public_id = str(uuid.uuid4())
     dbTeam = Models.Team(publicId = public_id, teamName = team.teamName)
     db.add(dbTeam)
     db.commit()
     return dbTeam
 
+#no clue what this should do
 def updateTeam(db: Session, publicId: str):
     pass
 
@@ -76,13 +77,22 @@ def getReservationsForRoom(db:Session, roomId: str):
     return db.query(Models.Reservation).filter(Models.Reservation.roomId == roomId).all()
 
 def deleteReservation(db: Session, publicId: str):
-    pass
+    dbReservation = db.query(Models.Reservation).filter(Models.Reservation.publicId == publicId).first()
+    db.delete(dbReservation)
+    db.commit()
+    return(dbReservation)
 
-#HARDCODED TABLES - no create() or delete()
 def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
     dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
     dbRoom.adminId = adminId
     dbRoom.isAssigned = isAssigned
+    db.commit()
+    return dbRoom
+
+def createRoom(db: Session, room: CreateRoom):
+    public_id = str(uuid.uuid4())
+    dbRoom = Models.Room(publicId = public_id, adminId = room.adminId, floorId = room.floorId, isAssigned = room.isAssigned)
+    db.add(dbRoom)
     db.commit()
     return dbRoom
 
@@ -95,10 +105,16 @@ def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
     dbRoom.isAssigned = isAssigned
     db.commit()
     return dbRoom
-
-
+  
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+
+def createWorkstation(db: Session, workstation: CreateWorkstation):
+    public_id = str(uuid.uuid4())
+    dbWorkstation = Models.Room(publicId = public_id, workstationName = CreateWorkstation.workstationName, roomId = CreateWorkstation.roomId)
+    db.add(dbWorkstation)
+    db.commit()
+    return dbWorkstation
 
 def getAllWorkstations(db: Session):
     return db.query(Models.Workstation).all()
@@ -106,6 +122,13 @@ def getAllWorkstations(db: Session):
 def getWorkstationByID(db: Session, publicId: str):
     return db.query(Models.Workstation).filter(Models.Workstation.publicId == publicId).first()
 
+def createFloor(db: Session, floor: CreateFloor):
+    public_id = str(uuid.uuid4())
+    dbFloor = Models.Room(publicId = public_id, floorNumber = floor.floorNumber)
+    db.add(dbFloor)
+    db.commit()
+    return dbFloor
+    
 def getAllFloors(db: Session):
     return db.query(Models.Floor).all()
 
