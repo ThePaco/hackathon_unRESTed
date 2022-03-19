@@ -24,14 +24,17 @@ async def getAllTeams(db : Session = Depends(get_db)):
     teams = DBoperations.getAllTeams(db = db)
     return teams
 
-@router.get("/")
+@router.get("/{publicId}")
+async def getTeam(publicId, db : Session = Depends(get_db)):
+    team = DBoperations.getTeamByID(db = db, publicId = publicId)
+    return team
 
 @router.post("/")
 async def createTeam(team : CreateTeam, db : Session = Depends(get_db)):
     addedTeam = DBoperations.createTeam(team = team, db = db)
     return {"publicId":addedTeam.publicId, "response": "Team added."}
 
-@router.patch("/{public_id}")
-async def updateTeam(team : CreateTeam, public_id, db : Session = Depends(get_db)):
-    team = DBoperations.updateTeam(db = db, team =  team, publicId = public_id)
+@router.patch("/{publicId}")
+async def updateTeam(team : CreateTeam, publicId, db : Session = Depends(get_db)):
+    team = DBoperations.updateTeam(db = db, team =  team, publicId = publicId)
     return {"Response": "Team updated"}
