@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy.orm import Session
 import Models
 from backend.model.Models import Person
-from backend.model.Schemas import CreateTeam
+from backend.model.Schemas import CreateTeam, UpdateTeam
 from model.Schemas import CreateUser
 
 #library of functions for creating, updating, searching and deleting db entries
@@ -16,9 +16,9 @@ def createUser(db: Session, user: CreateUser):
     db.commit()
     return dbUser
 
-def updateUserTeam(db: Session, userPublicID: str, teamPublicId : str):
-    dbUser = db.query(Models.Person).filter(Models.Person.publicId == userPublicID).first()
-    dbUser.teamID = teamPublicId
+def updateUserTeam(db: Session, user: UpdateTeam):
+    dbUser = db.query(Models.Person).filter(Models.Person.publicId == UpdateTeam.userPublicID).first()
+    dbUser.teamID = UpdateTeam.teamPublicId
     db.commit()
     return dbUser
 

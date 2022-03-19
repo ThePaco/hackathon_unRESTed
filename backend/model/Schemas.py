@@ -14,6 +14,10 @@ class CreateUser(BaseModel):
     email: str
     password: str
 
+class UpdateTeam(BaseModel):
+    userPublicId: str
+    teamPublicId: str
+
 class PatchUser(BaseModel):
     teamId: str
 
