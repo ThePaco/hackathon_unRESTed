@@ -5,7 +5,7 @@ from model.Database import SessionLocal, engine
 from sqlalchemy.orm import Session
 from model import DBoperations
 
-#Models.Base.metadata.create_all(bind=engine) #UNCOMMENT FROM DATABASE REBUILD
+Models.Base.metadata.create_all(bind=engine) #UNCOMMENT FROM DATABASE REBUILD
 router = APIRouter()
 
 
