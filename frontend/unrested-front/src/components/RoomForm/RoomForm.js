@@ -1,7 +1,6 @@
-import React,  { useState }  from 'react';
+import React,  { useEffect, useState }  from 'react';
 import PropTypes from 'prop-types';
 import './RoomForm.css';
-import DatePicker from "react-datepicker";
 import M from 'materialize-css';
 
 // import "materialize-css/dist/css/materialize.min.css";
@@ -9,57 +8,104 @@ import M from 'materialize-css';
 
 // import { Container, DatePicker } from "react-materialize";
 
-const RoomForm = () => { 
+const RoomForm = () => {
 
-   let timeNow = new Date().toLocaleDateString();
-   console.log("Trenutni datum: " + timeNow);
+  useEffect(() => {
 
-   const [myDate, setMyDate] = useState("");
-   console.log("myDate: " + myDate);
+    var elems = document.querySelectorAll('.datepicker');
+    var elems2 = document.querySelectorAll('.timepicker');
+    M.Datepicker.init(elems, {
+      defaultDate: new Date(),
+      container: "body",
+      onSelect: function(date) {
+        setMyDate(date);
+      },
+      autoClose: true
+    });
 
-   function handleChange(event) {
+    M.Timepicker.init(elems2, {
+      defaultDate: new Date(),
+      container: "body",
+      onSelect: function(time) {
+        setTimeStart(time);
+      },
+      autoClose: true
+    });
+
+  }, [])
+
+  const reservationsForDay = [
+    {owner:'Tere', start: '12:30', end: '13:30'},
+    {owner:'Ana', start: '13:30', end: '14:30'},
+    {owner:'Netko', start: '15:30', end: '15:30'},
+  ]
+  let timeNow = new Date().toLocaleDateString();
+
+  const [myDate, setMyDate] = useState(timeNow);
+  const [timeStart, setTimeStart] = useState();
+
+  function handleChange(event) {
+    console.log(event)
       setMyDate(event.target.value);
       console.log("Spremljeni datum " + event.target.value);
-   }
+  }
 
-   return(
-      <div className='RoomForm'> 
-         <input 
-            onChange={handleChange}
-            type="date" 
-            id="myDateID" 
-            name="trip-start"
-            value={myDate} 
-         ></input>
-         <button>
+  return(
+      <div className='RoomForm card'>
+        <div className="card-title">
+          Reservations
+        </div>
+        <br />
+        <div className="date-wrapper">
+          <label className="label" htmlFor="trip-start">Pick Date:</label>
+          <input
+              className='datepicker daypicker'
+              onSelect={handleChange}
+              onChange={(ev)=>{setMyDate(ev.target.value)}}
+              onClose={(cev)=>{console.log(cev)}}
+              type="text"
+              name="trip-start"
+              value={myDate}
+          />
+        </div>
+
+      {reservationsForDay.map((reservation)=>{
+        return (
+          <div className="card reservation">
+            <div className="car">{reservation.owner}</div>
+            {reservation.start} - {reservation.end}
+          </div>
+        )
+      })}
+
+      <label className="label" htmlFor="time-start">Pick Time:</label>
+      <div className="time-wrapper">
+        <input
+          type="text"
+          className="timepicker"
+          name="time-start"
+          value={timeStart}
+          onChange={()=>{}}
+        />
+        <i className="material-icons icon">remove</i>
+      <input
+        type="text"
+        className="timepicker"
+        name="time-start"
+        value={timeStart}
+        onChange={()=>{}}
+      />
+    </div>
+      <br/>
+      <br />
+      <button className="waves-effect waves-light btn">
         Submit
       </button>
-      <table>
-         <tr>
-            <th>From</th>
-            <th>To</th>
 
-         </tr>
-         <tr>
-            <td>{timeNow}</td>
-            <td>{myDate}</td>
-
-         </tr>
-      </table>
-      {/* <Container>
-        <p className="flow-text">Date: {this.state.date}</p>
-        <DatePicker
-          onChange={({ target: { value: date } }) => {
-            this.setState({
-              date
-            });
-          }}
-        />
-      </Container> */}
       </div>
 
-   );
+  );
 }
-   
+
 
 export default RoomForm;
