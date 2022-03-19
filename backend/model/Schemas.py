@@ -9,18 +9,18 @@ class Login(BaseModel):
 class CreateUser(BaseModel):
     firstName: str
     lastName: str
-    isAdmin: Boolean
     role: str
     teamId: str
     email: str
     password: str
 
 class PatchUser(BaseModel):
-    firstName: str
-    lastName: str
-    isAdmin: Boolean
-    role: str
     teamId: str
-    email: str
-    password: str
+
+class CreateTeam(BaseModel):
+    teamName: str
+
+class PatchTeam(BaseModel):
+    teamName: str
+
 
