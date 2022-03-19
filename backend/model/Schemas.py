@@ -1,10 +1,8 @@
 from datetime import date
 from sqlite3 import Time
-from xmlrpc.client import Boolean
 from pydantic import BaseModel
 
 from backend.model.Models import Reservation, Workstation
-
 
 class Login(BaseModel):
     email: str
