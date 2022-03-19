@@ -1,5 +1,6 @@
 import './App.scss';
 import Homepage from './components/Homepage/Homepage';
+import RoomForm from './components/RoomForm/RoomForm';
 
 import {
    BrowserRouter as Router,
@@ -14,6 +15,7 @@ function App() {
    return (
       <div className='App'>
          <Router>
+            <RoomForm />
             <Routes>
                <Route path='/' element={true ? <Homepage /> : <Navigate to="/login" />} />
             </Routes>
