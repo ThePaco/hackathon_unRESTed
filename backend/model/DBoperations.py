@@ -2,9 +2,9 @@ import hashlib
 import uuid
 from sqlalchemy.orm import Session
 import Models
-from model.Schemas import CreateUser, PatchUserForm
+from model.Schemas import CreateUser
 
-def createUser(user: CreateUser, db: Session):
+def createUser(db: Session, user: CreateUser):
     passw_encoded = user.password.encode()
     password_sha256 = hashlib.sha256(passw_encoded).hexdigest()
     public_id = str(uuid.uuid4())
@@ -31,15 +31,14 @@ def deleteUser(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
-def createTeam(team: Models.Team, db:Session):
+def createTeam(db: Session, team: Models.Team):
     public_id = str(uuid.uuid4())
     dbTeam = Models.Team(publicId = public_id, teamName = team.teamName)
     db.add(dbTeam)
     db.commit()
     return dbTeam
 
-#not implemented/used
-def updateTeam():
+def updateTeam(db: Session, publicId: str):
     pass
 
 def getAllTeams(db: Session):
@@ -54,7 +53,7 @@ def deleteTeam(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
-def createReservation(reservation: Models.Reservation, db: Session):
+def createReservation(db: Session, reservation: Models.Reservation):
     public_id = str(uuid.uuid4())
     dbReservation = Models.Reservation(publicId = public_id, roomId = reservation.roomId, reservationStart = reservation.reservationStart, reservationEnd = reservation.reservationEnd)
     db.add(dbReservation)
@@ -71,6 +70,13 @@ def deleteReservation(db: Session, publicId: str):
     pass
 
 #HARDCODED TABLES - no create() or delete()
+def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
+    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+    dbRoom.adminId = adminId
+    dbRoom.isAssigned = isAssigned
+    db.commit()
+    return dbRoom
+
 def getAllRooms(db: Session):
     return db.query(Models.Room).all()
 
