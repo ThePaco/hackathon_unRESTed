@@ -1,8 +1,6 @@
 from fastapi import FastAPI
-from router import LoginRouter, PersonRouter, TeamRouter
+from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter
 from fastapi.middleware.cors import CORSMiddleware
-
-#from router import LoginRouter
 
 
 app = FastAPI()
@@ -35,3 +33,7 @@ async def root():
 
 app.include_router(LoginRouter.router, prefix="/login", tags=["login"])
 app.include_router(PersonRouter.router, prefix="/person", tags=["person"])
+app.include_router(FloorRouter.router, prefix="/floor", tags=["floor"])
+app.include_router(RoomRouter.router, prefix="/room", tags=["room"])
+app.include_router(TeamRouter.router, prefix="/team", tags=["team"])
+
