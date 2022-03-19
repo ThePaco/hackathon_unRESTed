@@ -75,6 +75,13 @@ def deleteReservation(db: Session, publicId: str):
 def getAllRooms(db: Session):
     return db.query(Models.Room).all()
 
+def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
+    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+    dbRoom.adminId = adminId
+    dbRoom.isAssigned = isAssigned
+    db.commit()
+    return dbRoom
+
 
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
