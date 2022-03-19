@@ -19,7 +19,7 @@ class CreateUser(BaseModel):
 class PatchUser(BaseModel):
     firstName: str
     lastName: str
-    isAdmin: Boolean
+    isAdmin: bool
     role: str
     teamId: str
     email: str
