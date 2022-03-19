@@ -15,13 +15,7 @@ class CreateUser(BaseModel):
     password: str
 
 class PatchUser(BaseModel):
-    firstName: str
-    lastName: str
-    isAdmin: Boolean
-    role: str
     teamId: str
-    email: str
-    password: str
 
 class CreateTeam(BaseModel):
     teamName: str
