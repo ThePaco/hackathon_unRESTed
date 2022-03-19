@@ -50,8 +50,8 @@ def getAllTeams(db: Session):
 def getTeamByID(db: Session, teamPublicId: str):
     #get the team and all users in that team but it do be just concatenating json files
     team = db.query(Models.Team).filter(Models.Team.publicId == teamPublicId).first()
-    usersInTeam = db.query(Models.Person).filter(Models.Person.teamId == teamPublicId).all()
-    return team + usersInTeam
+    users = db.query(Models.Person.publicId, Models.Person.firstName, Models.Person.lastName).filter(Models.Person.teamId == teamPublicId).all()
+    return team + users
 
 def deleteTeam(db: Session, publicId: str):
     dbUser = db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
