@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import './Floor.css';
+import { useNavigate } from "react-router-dom";
 
-var FloorPlanEngine;
+
+declare var FloorPlanEngine;
 
 const floorPlanStartupSettings = {
   hideElements: [],
@@ -81,15 +83,20 @@ const Floor = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [props.sceneId]);
+
+let navigate = useNavigate();
+
 const onRoomClick = (event, floorPlan) => {
   const { spaces } = floorPlan.getResourcesFromPosition(event.pos);
   if (spaces.length === 0) return;
   spaces[0].node.setHighlight({fill: [0,200,0]});
+  navigate('/room-form')
+
 }
 
-  return (<>
+  return (<div>
   <div id='floorplan' style={{ height: '100%', width: '100%' }}></div>
-  </>)
+  </div>)
 }
 
 Floor.propTypes = {};

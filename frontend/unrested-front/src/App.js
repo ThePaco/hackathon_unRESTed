@@ -15,12 +15,15 @@ function App() {
    return (
       <div className='App'>
          <Router>
-            <RoomForm />
+
             <Routes>
                <Route path='/' element={true ? <Homepage /> : <Navigate to="/login" />} />
             </Routes>
             <Routes>
                <Route path='/floor' element={<Floor sceneId='22e32ff5-ba13-48ff-8eeb-2c82341ac23d'/>} />
+            </Routes>
+            <Routes>
+               <Route path='/room-form' element={<RoomForm />} />
             </Routes>
          </Router>
       </div>

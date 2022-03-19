@@ -1,1 +1,6 @@
 .Floor {}
+
+.wrapper {
+  padding: 4em;
+  display: flex;
+}
