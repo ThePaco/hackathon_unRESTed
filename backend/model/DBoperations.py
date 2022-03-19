@@ -1,10 +1,9 @@
 import hashlib
-import os
 import uuid
-from fastapi import UploadFile
 from sqlalchemy.orm import Session
 from model import Models
 from model.Schemas import CreateUser
+
 
 def createUser(user: CreateUser, db: Session):
     passw_encoded = user.password.encode()
