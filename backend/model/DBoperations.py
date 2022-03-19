@@ -45,12 +45,11 @@ def getAllTeams(db: Session):
     return db.query(Models.Team).all()
 
 #not yet updated
-def getTeamByID(db: Session, publicId: str):
+def getTeamByID(db: Session, teamPublicId: str):
     #get the team and all users in that team
-    
+    db.query(Models.Person).filter(Models.Person.teamId == teamPublicId)
     usersInTeam = []
-
-    return db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
+    return db.query(Models.Team).filter(Models.Team.publicId == teamPublicId).first()
 
 def deleteTeam(db: Session, publicId: str):
     dbUser = db.query(Models.Team).filter(Models.Team.publicId == publicId).first()
@@ -99,3 +98,6 @@ def getAllFloors(db: Session):
 
 def getFloorByID(db: Session, publicId: str):
     return db.query(Models.Floor).filter(Models.Floor.publicId == publicId).first()
+
+def getRoomsByFloor(db: Session, floorId: str):
+    return db.query(Models.Room).filter(Models.Room.floorId == floorId).all()
