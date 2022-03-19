@@ -56,7 +56,9 @@ class CreateFloor(BaseModel):
     floorNumber: int
 
 class CreateEquipment(BaseModel):
+    equipmentName: str
     workstationId: str
+    
 
 class PatchRoom(BaseModel):
     adminId: str
