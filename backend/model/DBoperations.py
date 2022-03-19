@@ -3,6 +3,7 @@ import uuid
 from sqlalchemy.orm import Session
 import Models
 from backend.model.Models import Person
+from backend.model.Schemas import CreateTeam
 from model.Schemas import CreateUser
 
 #library of functions for creating, updating, searching and deleting db entries
@@ -33,12 +34,15 @@ def deleteUser(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
-def createTeam(db: Session, team: Models.Team):
+def createTeam(db: Session, team: CreateTeam):
     public_id = str(uuid.uuid4())
     dbTeam = Models.Team(publicId = public_id, teamName = team.teamName)
     db.add(dbTeam)
     db.commit()
     return dbTeam
+
+def new_func():
+    return Models.Team
 
 def updateTeam(db: Session, publicId: str):
     pass
@@ -79,7 +83,6 @@ def getReservationsForRoom(db:Session, roomId: str):
 def deleteReservation(db: Session, publicId: str):
     pass
 
-#HARDCODED TABLES - no create() or delete()
 def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
     dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
     dbRoom.adminId = adminId
@@ -87,18 +90,26 @@ def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
     db.commit()
     return dbRoom
 
+def createRoom(db: Session):
+    pass
+
 def getAllRooms(db: Session):
     return db.query(Models.Room).all()
 
-
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+
+def createWorkstation(db: Session):
+    pass
 
 def getAllWorkstations(db: Session):
     return db.query(Models.Workstation).all()
 
 def getWorkstationByID(db: Session, publicId: str):
     return db.query(Models.Workstation).filter(Models.Workstation.publicId == publicId).first()
+
+def createFloor(db: Session):
+    pass
 
 def getAllFloors(db: Session):
     return db.query(Models.Floor).all()
