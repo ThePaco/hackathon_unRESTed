@@ -29,6 +29,6 @@ async def getEquipmentByID(publicId, db : Session = Depends(get_db)):
     return equipment
 
 @router.post("/")
-async def createEquipment(equipment = CreateEquipment, db : Session = Depends(get_db)):
+async def createEquipment(equipment: CreateEquipment, db : Session = Depends(get_db)):
     addedEquipment = DBoperations.createEquipment(db = db, equipment=equipment)
     return {"response": "equipment created", "publicId": addedEquipment.publicId}

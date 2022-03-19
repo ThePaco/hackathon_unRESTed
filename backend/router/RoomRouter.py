@@ -35,6 +35,6 @@ async def updateRoom(publicId, patch : PatchRoom, db: Session = Depends(get_db))
     return {"response": "Room patched"}
 
 @router.post("/")
-async def createRoom(room = CreateRoom, db : Session = Depends(get_db)):
+async def createRoom(room: CreateRoom, db : Session = Depends(get_db)):
     addedRoom = DBoperations.createRoom(db = db, room = room)
     return {"response": "room created", "publicId": addedRoom.publicId}

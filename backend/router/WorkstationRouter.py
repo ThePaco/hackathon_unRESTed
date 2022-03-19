@@ -28,7 +28,7 @@ async def getWorkstationByID(publicId, db : Session = Depends(get_db)):
     return workstation
 
 @router.post("/")
-async def createWorkstation(workstation = CreateWorkstation, db : Session = Depends(get_db)):
+async def createWorkstation(workstation: CreateWorkstation, db : Session = Depends(get_db)):
     addedWorkstation = DBoperations.createWorkstation(db = db, workstation=workstation)
     return {"publicId":addedWorkstation.publicId, "response":"Workstation created"}
 
