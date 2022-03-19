@@ -19,7 +19,7 @@ class CreateUser(BaseModel):
 class PatchUser(BaseModel):
     firstName: str
     lastName: str
-    isAdmin: Boolean
+    isAdmin: bool
     role: str
     teamId: str
     email: str
@@ -39,7 +39,6 @@ class CreateTeam(BaseModel):
     teamName: str
 
 class CreateReservation(BaseModel):
-    publcId: str
     roomId: str
     reservationStart: date
     reservationEnd: date
@@ -50,16 +49,13 @@ class CreateRoom(BaseModel):
     isAssigned: bool
 
 class CreateWorkstation(BaseModel):
-    publicId: str
     workstationName: str
     roomId: str
 
 class CreateFloor(BaseModel):
-    publicId: str
     floorNumber: int
 
 class CreateEquipment(BaseModel):
-    publicId: str
     workstationId: str
 
 class PatchRoom(BaseModel):
