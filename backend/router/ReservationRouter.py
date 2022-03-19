@@ -28,9 +28,9 @@ async def getReservation(public_id, db : Session = Depends(get_db)):
     reservation = DBoperations.getReservationByID(db = db, publicId=public_id)
     return reservation
 
-@router.post("/{room_id}")
-async def createReservation(room_id, reservation : CreateReservation, db : Session = Depends(get_db)):
-    reservations = DBoperations.getReservationsForRoom(db = db, roomId=room_id)
+@router.post("/")
+async def createReservation(reservation : CreateReservation, db : Session = Depends(get_db)):
+    reservations = DBoperations.getReservationsForRoom(db = db, roomId=reservation.roomId)
     for x in reservations:
         if (x.reservationStart < reservation.reservationStart) and (x.reservationEnd > reservation.reservationStart):
             return JSONResponse(status_code=400, content={"message": "Already Reserved"})
