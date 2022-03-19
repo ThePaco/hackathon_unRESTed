@@ -8,7 +8,7 @@ from model import Models
 from model.Schemas import CreateUser, PatchUserForm
 
 def getUserByID(db: Session, publicId: int):
-    return db.query(Models.User).filter(Models.User.publicId == publicId).first()
+    return db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
 
 def createUser(user: CreateUser, db: Session):
     passw_encoded = user.password.encode()

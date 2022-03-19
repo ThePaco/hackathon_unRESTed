@@ -24,3 +24,10 @@ class PatchUser(BaseModel):
     email: str
     password: str
 
+class CreateTeam(BaseModel):
+    teamName: str
+
+class PatchTeam(BaseModel):
+    teamName: str
+
+
