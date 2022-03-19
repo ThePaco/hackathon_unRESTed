@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from backend.model.Schemas import CreateRoom
 from model.Schemas import PatchRoom
 from model import Models
 from model import DBoperations
@@ -32,3 +33,8 @@ async def getRoom(publicId, db: Session = Depends(get_db)):
 async def updateRoom(publicId, patch : PatchRoom, db: Session = Depends(get_db)):
     room = DBoperations.updateRoom(publicId = publicId, adminId = patch.adminId, isAssigned = patch.isAssigned, db = db)
     return {"response": "Room patched"}
+
+@router.post("/")
+async def createRoom(room = CreateRoom, db : Session = Depends(get_db)):
+    addedRoom = DBoperations.createRoom(db = db, room = room)
+    return {"response": "room created", "publicId": addedRoom.publicId}
