@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -10,14 +10,14 @@ origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:4000",
     "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[""],
-    allow_methods=[""],
+    allow_origins=["*"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -37,4 +37,3 @@ app.include_router(FloorRouter.router, prefix="/floor", tags=["floor"])
 app.include_router(RoomRouter.router, prefix="/room", tags=["room"])
 app.include_router(TeamRouter.router, prefix="/team", tags=["team"])
 app.include_router(ReservationRouter.router, prefix="/reservation", tags=["reservation"])
-
