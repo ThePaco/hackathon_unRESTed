@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.model.Schemas import CreateFloor
+from model.Schemas import CreateFloor
 from model import DBoperations
 from model.Database import SessionLocal
 #Models.Base.metadata.create_all(bind=engine)  #UNCOMMENT TO REBUILD DATABASE
