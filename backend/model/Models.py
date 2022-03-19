@@ -69,6 +69,3 @@ class Equipment(Base):
     publicId = Column(String(50), unique = True)
     equipmentName = Column(String(40), nullable = False)
     workstationId = Column(String(50), nullable = False)
-
-
-

@@ -1,7 +1,7 @@
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
-from Models import *
+import Models
 from Schemas import *
 
 #library of functions for creating, updating, searching and deleting db entries
@@ -32,6 +32,8 @@ def deleteUser(db: Session, user: GetUserById):
     db.commit()
     return(dbUser)
 
+
+
 def createTeam(db: Session, team: CreateTeam):
     public_id = str(uuid.uuid4())
     dbTeam = Models.Team(publicId = public_id, teamName = team.teamName)
@@ -60,6 +62,8 @@ def deleteTeam(db: Session, publicId: str):
     db.commit()
     return(dbUser)
 
+
+
 def createReservation(db: Session, reservation: Models.Reservation):
     public_id = str(uuid.uuid4())
     dbReservation = Models.Reservation(publicId = public_id, roomId = reservation.roomId, reservationStart = reservation.reservationStart, reservationEnd = reservation.reservationEnd)
@@ -82,17 +86,18 @@ def deleteReservation(db: Session, publicId: str):
     db.commit()
     return(dbReservation)
 
-def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
-    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
-    dbRoom.adminId = adminId
-    dbRoom.isAssigned = isAssigned
-    db.commit()
-    return dbRoom
 
 def createRoom(db: Session, room: CreateRoom):
     public_id = str(uuid.uuid4())
     dbRoom = Models.Room(publicId = public_id, adminId = room.adminId, floorId = room.floorId, isAssigned = room.isAssigned)
     db.add(dbRoom)
+    db.commit()
+    return dbRoom
+
+def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
+    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+    dbRoom.adminId = adminId
+    dbRoom.isAssigned = isAssigned
     db.commit()
     return dbRoom
 
@@ -109,6 +114,8 @@ def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
 
+
+
 def createWorkstation(db: Session, workstation: CreateWorkstation):
     public_id = str(uuid.uuid4())
     dbWorkstation = Models.Room(publicId = public_id, workstationName = CreateWorkstation.workstationName, roomId = CreateWorkstation.roomId)
@@ -122,13 +129,15 @@ def getAllWorkstations(db: Session):
 def getWorkstationByID(db: Session, publicId: str):
     return db.query(Models.Workstation).filter(Models.Workstation.publicId == publicId).first()
 
+
+
 def createFloor(db: Session, floor: CreateFloor):
     public_id = str(uuid.uuid4())
     dbFloor = Models.Room(publicId = public_id, floorNumber = floor.floorNumber)
     db.add(dbFloor)
     db.commit()
     return dbFloor
-    
+
 def getAllFloors(db: Session):
     return db.query(Models.Floor).all()
 
