@@ -1,5 +1,5 @@
 from datetime import date
-from math import floor
+from sqlite3 import Time
 from xmlrpc.client import Boolean
 from pydantic import BaseModel
 
@@ -51,3 +51,12 @@ class CreateFloor(BaseModel):
 class CreateEquipment(BaseModel):
     publicId: str
     workstationId: str
+
+class PatchRoom(BaseModel):
+    adminId: str
+    isAssigned: bool
+
+class CreateReservation(BaseModel):
+    roomId: str
+    reservationStart: Time
+    reservationEnd: Time

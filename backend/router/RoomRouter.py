@@ -29,6 +29,6 @@ async def getRoom(publicId, db: Session = Depends(get_db)):
 
 
 @router.patch("/{publicId}")
-async def patchRoom(publicId, patch : PatchRoom, db: Session = Depends(get_db)):
-    room = DBoperations.getRoom(publicId = publicId, adminId = patch.adminId, db = db)
-    return room
+async def updateRoom(publicId, patch : PatchRoom, db: Session = Depends(get_db)):
+    room = DBoperations.updateRoom(publicId = publicId, adminId = patch.adminId, isAssigned = patch.isAssigned, db = db)
+    return {"response": "Room patched"}

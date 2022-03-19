@@ -1,7 +1,7 @@
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
-import Models
+from Models import *
 from Schemas import *
 
 #library of functions for creating, updating, searching and deleting db entries
@@ -99,6 +99,13 @@ def createRoom(db: Session, room: CreateRoom):
 def getAllRooms(db: Session):
     return db.query(Models.Room).all()
 
+def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
+    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
+    dbRoom.adminId = adminId
+    dbRoom.isAssigned = isAssigned
+    db.commit()
+    return dbRoom
+  
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
 
