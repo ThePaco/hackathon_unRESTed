@@ -1,14 +1,17 @@
 import React,  { useEffect, useState }  from 'react';
 import PropTypes from 'prop-types';
-import './RoomForm.css';
+import './RoomForm.scss';
 import M from 'materialize-css';
-
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 // import "materialize-css/dist/css/materialize.min.css";
 // import "materialize-css/dist/js/materialize.min.js";
 
 // import { Container, DatePicker } from "react-materialize";
 
-const RoomForm = () => {
+const RoomForm = (props) => {
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -32,6 +35,8 @@ const RoomForm = () => {
       autoClose: true
     });
 
+    axios.get('http://localhost:4000/reservation').then((res) => console.log(res))
+
   }, [])
 
   const reservationsForDay = [
@@ -52,6 +57,12 @@ const RoomForm = () => {
 
   return(
       <div className='RoomForm card'>
+        <div
+        className="right exit"
+        onClick={()=>{navigate('../floor/1')}}
+        >
+          <i className="material-icons right">close</i>
+        </div>
         <div className="card-title">
           Reservations
         </div>

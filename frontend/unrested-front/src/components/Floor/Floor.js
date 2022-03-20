@@ -52,7 +52,7 @@ const Floor = (props) => {
   function highlightResources(evt) {
     const pos = evt.pos
     let { assets, spaces } = this.getResourcesFromPosition(pos)
-    highlight(spaces, 'space', [150, 200, 250])
+    highlight(spaces, 'space', [0, 128, 128])
     highlight(assets, 'asset', [250, 150, 50])
   }
 
