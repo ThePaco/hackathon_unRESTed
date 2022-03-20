@@ -16,7 +16,7 @@ import {
 import Floor from './components/Floor/Floor';
 
 function App() {
-  const isAuthenticated = true; //promjenjeno u true
+  const isAuthenticated = false; //promjenjeno u true
    return (
       <div className='App'>
           <Router>
@@ -29,7 +29,7 @@ function App() {
                 <Route path='/floor/:id' element={<Floor sceneId='22e32ff5-ba13-48ff-8eeb-2c82341ac23d'/>} />
               </Routes>
               <Routes>
-                <Route path='/login' element={<Login />} />
+                <Route path='/login' element={<Login {...isAuthenticated}/>} />
               </Routes>
               <Routes>
                 <Route

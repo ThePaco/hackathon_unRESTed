@@ -5,13 +5,14 @@ import M from 'materialize-css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-const timeFormatter = (hour, minutes) => {
-   return `${hour}:${minutes}`;
+const timeFormatter = (date, hour, minutes) => {
+   return new Date(date.getYear(), date.getMonth(), date.getDate(), hour, minutes, 0)
 }
 //2022-03-19 19:56:21
 const dateTimeParser = (dateTime) => {
-   const [date, timeUgly] = dateTime.split();
-   const [hour, minute, second] = time.split(":");
+  console.log(dateTime);
+   const [date, timeUgly] = dateTime.split('');
+   const [hour, minute, second] = timeUgly.split(":");
    const time = timeFormatter(hour, minute);
    return {date, time};
 }
@@ -29,6 +30,8 @@ const RoomForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    axios.get('http://localhost:4000/reservation').then( (val) => setReservations(val.data))
 
     var elems = document.querySelectorAll('.datepicker');
     var timePick1 = document.getElementById('timepicker1');
@@ -48,8 +51,7 @@ const RoomForm = () => {
       container: "body",
       twelveHour: false,
       onSelect: function(hour, minute) {
-         console.log(hour, minute);
-        setTimeStart(timeFormatter(hour, minute));
+        setTimeStart(timeFormatter(myDate ,hour, minute));
       },
       autoClose: true
     });
@@ -59,8 +61,14 @@ const RoomForm = () => {
       container: "body",
       twelveHour: false,
       onSelect: function(hour, minute) {
-         console.log(hour, minute)
-        setTimeEnd(timeFormatter(hour, minute));
+        setTimeEnd(timeFormatter(myDate ,hour, minute));
+
+        console.log(timeEnd, timeStart)
+        console.log(new Date(timeEnd)-new Date(timeStart))
+        if((timeEnd-timeStart) > 8640000) {
+          console.log((timeEnd-timeStart) > 8640000)
+          setErrorTime('Yikes')
+        }
       },
       autoClose: true
     });
@@ -69,21 +77,22 @@ const RoomForm = () => {
 
   }, [])
 
-  const reservationsForDay = [
-    {owner:'Tere', start: '12:30', end: '13:30'},
-    {owner:'Ana', start: '13:30', end: '14:30'},
-    {owner:'Netko', start: '15:30', end: '15:30'},
-  ]
-  let timeNow = new Date().toLocaleDateString();
-
-  const [myDate, setMyDate] = useState(timeNow);
+  const [myDate, setMyDate] = useState(new Date().toLocaleDateString());
   const [timeStart, setTimeStart] = useState('start');
   const [timeEnd, setTimeEnd] = useState('end');
+  const [reservations, setReservations] = useState([]);
+  const [errorTime, setErrorTime] = useState();
 
+  const submitReservation = () => {
+    axios.post(`http://localhost:4000/reservation/${"d4aabcba-9b87-4721-af9a-3d53dad13bc3"}`, {
+      roomId: "d4aabcba-9b87-4721-af9a-3d53dad13bc3",
+      reservationStart: timeStart,
+      reservationEnd: timeEnd,
+    })
+  }
   function handleChange(event) {
     console.log(event)
       setMyDate(event.target.value);
-      console.log("Spremljeni datum " + event.target.value);
   }
 
   return(
@@ -111,11 +120,17 @@ const RoomForm = () => {
           />
         </div>
 
-      {reservationsForDay.map((reservation)=>{
+      {reservations.filter((res)=> {
+        const resDate = new Date(res.reservationStart);
+        const newDate = new Date(myDate);
+        return (resDate.toLocaleDateString()) === newDate.toLocaleDateString()
+      }).map((reservation)=>{
+        const resStart = new Date(reservation.reservationStart)
+        const resEnd = new Date(reservation.reservationEnd)
         return (
           <div className="card reservation">
             <div className="car">{reservation.owner}</div>
-            {reservation.start} - {reservation.end}
+            {resStart.toTimeString().split(' ')[0]} - {resEnd.toTimeString().split(' ')[0]}
           </div>
         )
       })}
@@ -139,10 +154,14 @@ const RoomForm = () => {
         value={timeEnd}
         onChange={()=>{}}
       />
+      {errorTime}
+      <div>
+
+      </div>
     </div>
       <br/>
       <br />
-      <button className="waves-effect waves-light btn">
+      <button className="waves-effect waves-light btn" onClick={submitReservation}>
         Submit
       </button>
 
