@@ -1,9 +1,9 @@
 from venv import create
 from fastapi import FastAPI, Depends, HTTPException
-from backend.model import Models
-from backend.model.DBoperations import createUser
-from backend.model.Schemas import CreateUser, Login
-from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
+from model import Models
+from model.DBoperations import createUser
+from model.Schemas import CreateUser, Login
+from router import PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from model.Auth import AuthHandler

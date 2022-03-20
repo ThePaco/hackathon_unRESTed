@@ -16,7 +16,7 @@ import {
 import Floor from './components/Floor/Floor';
 
 function App() {
-  const isAuthenticated = false;
+  const isAuthenticated = true; //promjenjeno u true
    return (
       <div className='App'>
           <Router>
