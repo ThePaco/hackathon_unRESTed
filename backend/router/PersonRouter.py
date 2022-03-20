@@ -30,12 +30,6 @@ async def getUserById (publicId, db : Session = Depends(get_db)):
     user = DBoperations.getUserByID(db = db, publicId=publicId)
     return {"publicId":user.publicId, "response": "GET person"}
 
-
-@router.post("/")
-async def createUser (user : CreateUser, db : Session = Depends(get_db)):
-    addedUser = DBoperations.createUser(user = user, db = db)
-    return {"publicId": addedUser.publicId, "response":"Added user"}
-
 @router.patch("/{publicId}")
 async def updateUserTeam (user : PatchUser, publicId, db : Session = Depends(get_db)):
     user = DBoperations.updateUserTeam(db = db, user = user, publicId = publicId)
