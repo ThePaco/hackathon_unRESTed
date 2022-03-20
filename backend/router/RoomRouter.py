@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.model.Schemas import CreateRoom
+from model.Schemas import CreateRoom
 from model.Schemas import PatchRoom
 from model import Models
 from model import DBoperations
 from model.Database import SessionLocal,engine
 #Models.Base.metadata.create_all(bind=engine)  #UNCOMMENT TO REBUILD DATABASE
 
-router = APIRouter() 
+router = APIRouter()
 
 # Dependency
 def get_db():
