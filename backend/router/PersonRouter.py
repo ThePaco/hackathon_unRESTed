@@ -28,7 +28,7 @@ async def getAllUsers(db : Session = Depends(get_db)):
 @router.get("/{publicId}")
 async def getUserById (publicId, db : Session = Depends(get_db)):
     user = DBoperations.getUserByID(db = db, publicId=publicId)
-    return {"publicId":publicId, "response": "GET person"}
+    return {"publicId":user.publicId, "response": "GET person"}
 
 
 @router.post("/")

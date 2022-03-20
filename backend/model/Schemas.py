@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import datetime
 from sqlite3 import Time
 from pydantic import BaseModel
+
 
 from model.Models import Reservation, Workstation
 
@@ -38,10 +39,6 @@ class GetUserById(BaseModel):
 class CreateTeam(BaseModel):
     teamName: str
 
-class CreateReservation(BaseModel):
-    roomId: str
-    reservationStart: date
-    reservationEnd: date
 
 class CreateRoom(BaseModel):
     adminId: str
@@ -66,6 +63,6 @@ class PatchRoom(BaseModel):
 
 class CreateReservation(BaseModel):
     roomId: str
-    reservationStart: Time
-    reservationEnd: Time
+    reservationStart: datetime
+    reservationEnd: datetime
 
