@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 import uuid
 from sqlalchemy.orm import Session
@@ -88,6 +89,7 @@ def deleteReservation(db: Session, publicId: str):
     return(dbReservation)
 
 
+
 def createRoom(db: Session, room: Schemas.CreateRoom):
     public_id = str(uuid.uuid4())
     dbRoom = Models.Room(publicId = public_id, adminId = room.adminId, floorId = room.floorId, isAssigned = room.isAssigned)
@@ -105,16 +107,9 @@ def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
 def getAllRooms(db: Session):
     return db.query(Models.Room).all()
 
-def updateRoom(db: Session, publicId: str, adminId: str, isAssigned: bool):
-    dbRoom = db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
-    dbRoom.adminId = adminId
-    dbRoom.isAssigned = isAssigned
-    db.commit()
-    return dbRoom
 
 def getRoomByID(db: Session, publicId: str):
     return db.query(Models.Room).filter(Models.Room.publicId == publicId).first()
-
 
 
 def createWorkstation(db: Session, workstation: Schemas.CreateWorkstation):
