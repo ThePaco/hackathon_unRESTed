@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import './Login.scss';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: ''
     },
     onSubmit: values => {
-      axios.post('http://localhost:4000/login', {
-        values
-      })
-      alert(JSON.stringify(values, null, 2));
+     props.setIsAuthenticated(true);
+     navigate('../');
     },
     validate: (values) => {
       const errors = {};
@@ -39,6 +39,7 @@ const Login = () => {
             id="email"
             name="email"
             type="email"
+            required
             onChange={formik.handleChange}
             value={formik.values.email}
           />
@@ -51,6 +52,7 @@ const Login = () => {
             id="password"
             name="password"
             type="password"
+            required
             onChange={formik.handleChange}
             value={formik.values.password}
           />
