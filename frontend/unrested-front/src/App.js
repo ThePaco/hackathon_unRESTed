@@ -1,6 +1,10 @@
 import './App.scss';
 import Homepage from './components/Homepage/Homepage';
 import RoomForm from './components/RoomForm/RoomForm';
+import Logo from './components/Logo/Logo';
+import Login from './components/Login/Login'
+
+import { useNavigate } from "react-router-dom";
 
 import {
    BrowserRouter as Router,
@@ -12,20 +16,36 @@ import {
 import Floor from './components/Floor/Floor';
 
 function App() {
+  const isAuthenticated = false;
    return (
       <div className='App'>
-         <Router>
+          <Router>
+            <Logo />
+            <div className='wrapper'>
+              <Routes>
+                <Route path='/' element={isAuthenticated ? <Homepage /> : <Navigate to="/login" />} />
+              </Routes>
+              <Routes>
+                <Route path='/floor/:id' element={<Floor sceneId='22e32ff5-ba13-48ff-8eeb-2c82341ac23d'/>} />
+              </Routes>
+              <Routes>
+                <Route path='/login' element={<Login />} />
+              </Routes>
+              <Routes>
+                <Route
+                  path='/room-form'
+                  element={
+                    <RoomForm
+                      goBack={
+                        (floor) => console.log('hi')
+                      }
+                    />
+                  }
+                />
+              </Routes>
+            </div>
+          </Router>
 
-            <Routes>
-               <Route path='/' element={true ? <Homepage /> : <Navigate to="/login" />} />
-            </Routes>
-            <Routes>
-               <Route path='/floor' element={<Floor sceneId='22e32ff5-ba13-48ff-8eeb-2c82341ac23d'/>} />
-            </Routes>
-            <Routes>
-               <Route path='/room-form' element={<RoomForm />} />
-            </Routes>
-         </Router>
       </div>
 
    );

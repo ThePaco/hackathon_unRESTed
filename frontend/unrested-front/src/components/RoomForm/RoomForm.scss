@@ -32,3 +32,21 @@
 .icon {
   padding: 0px 40px;
 }
+
+.exit {
+  padding: 5px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.exit:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgba(0,204,153,0.1);
+  text-align: center;
+  transition: 0.3s;
+  i.right {
+    margin: 0px;
+  }
+
+}

@@ -1,1 +1,17 @@
-.Login {}
+.Login {
+  width: 60%;
+  height: fit-content;
+  padding: 50px;
+  border-radius: 10px;
+  margin: center;
+}
+
+.input {
+  margin-bottom: 50px;
+}
+
+.login-title {
+  font-size: 28px;
+  color: teal;
+  margin-bottom: 30px;
+}

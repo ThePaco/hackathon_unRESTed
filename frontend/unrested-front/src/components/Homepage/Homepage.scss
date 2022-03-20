@@ -1,7 +1,9 @@
-.Homepage {}
+.Homepage {
+  width: 100%;
+}
 
 body {
-   font-family: "Lato", sans-serif;  
+   font-family: "Lato", sans-serif;
    font-weight: 300;
 }
 
@@ -24,7 +26,7 @@ body {
 .button-slanted-content {
    -ms-transform: skewX(20deg);
    -webkit-transform: skewX(20deg);
-   transform: skewX(20deg);  
+   transform: skewX(20deg);
    display: inline-block;
 }
 
