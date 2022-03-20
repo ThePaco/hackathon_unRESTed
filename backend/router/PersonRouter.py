@@ -31,9 +31,11 @@ async def getUserById (publicId, db : Session = Depends(get_db)):
     return {"publicId":user.publicId, "response": "GET person"}
 
 @router.patch("/{publicId}")
-async def updateUserTeam (user : PatchUser, publicId, db : Session = Depends(get_db)):
-    user = DBoperations.updateUserTeam(db = db, user = user, publicId = publicId)
-    return {"response": "User updated"}
+async def promoteUser (publicId, db : Session = Depends(get_db)):
+    user = DBoperations.promoteUser(db = db, userPublicId=publicId)
+    return {"response": "User updated", "Firstname": user.firstName}
+
+
 
 @router.delete("/{publicId}")
 async def deleteUser(publicId, db : Session = Depends(get_db)):
