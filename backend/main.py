@@ -2,7 +2,7 @@ from venv import create
 from fastapi import FastAPI, Depends, HTTPException
 from backend.model import Models
 from backend.model.DBoperations import createUser
-from backend.model.Schemas import Login
+from backend.model.Schemas import CreateUser, Login
 from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -35,11 +35,11 @@ def unprotected():
     return { 'message': 'Hello World from unsecure' }
 
 @app.post('/register', status_code=201)
-def register(db: Session, login_details: Login):
-    if db.query(Models.Person).filter(Models.Person.email == login_details.email).first():
+def register(db: Session, registration_details: CreateUser):
+    if db.query(Models.Person).filter(Models.Person.email == registration_details.email).first():
         raise HTTPException(status_code=400, detail='Email is taken')
-    login_details.password = login_details.get_password_hash(login_details.password)
-    createUser(login_details)
+    registration_details.password = registration_details.get_password_hash(registration_details.password)
+    createUser(registration_details)
     return
 
 
