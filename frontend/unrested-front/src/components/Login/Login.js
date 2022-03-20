@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Login.scss';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
 const Login = () => {
   const formik = useFormik({
@@ -10,6 +11,9 @@ const Login = () => {
       password: ''
     },
     onSubmit: values => {
+      axios.post('http://localhost:4000/login', {
+        values
+      })
       alert(JSON.stringify(values, null, 2));
     },
     validate: (values) => {

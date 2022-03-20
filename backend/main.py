@@ -1,12 +1,15 @@
+import hashlib
+from typing_extensions import Self
 from venv import create
 from fastapi import FastAPI, Depends, HTTPException
-from backend.model import Models
-from backend.model.DBoperations import createUser
-from backend.model.Schemas import CreateUser, Login
-from router import LoginRouter, PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter
+from model import Models
+from model.DBoperations import createUser
+from model.Schemas import CreateUser, Login
+from router import PersonRouter, TeamRouter, FloorRouter, RoomRouter, ReservationRouter, LoginRouter
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from model.Auth import AuthHandler
+from model.Database import SessionLocal, engine
 
 app = FastAPI()
 
@@ -26,6 +29,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+""" def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -35,19 +46,24 @@ def unprotected():
     return { 'message': 'Hello World from unsecure' }
 
 @app.post('/register', status_code=201)
-def register(db: Session, registration_details: CreateUser):
+async def register(registration_details: CreateUser, db: Session = Depends(get_db)):
     if db.query(Models.Person).filter(Models.Person.email == registration_details.email).first():
         raise HTTPException(status_code=400, detail='Email is taken')
-    registration_details.password = registration_details.get_password_hash(registration_details.password)
-    createUser(registration_details)
-    return
+    passw_encoded = registration_details.password.encode()
+    passw_encoded_sha256 = hashlib.sha256(passw_encoded).hexdigest()
+    registration_details.password = passw_encoded_sha256
+    createUser(db = db, user = registration_details)
+    return registration_details
 
 
 @app.post('/login')
-def login(db: Session, login_details: Login):
-    user = db.query(Models.Person).filter(Models.Person.email == login_details.email).first()
-    
-    if (user is None) or (not AuthHandler.verify_password(login_details.password, user['password'])):
+async def login(raw_login_details):
+    print("AAAAA")
+    login_email = raw_login_details["email"]
+    login_password = raw_login_details["password"]
+    user = db.query(Models.Person).filter(Models.Person.email == login_email).first()
+
+    if (user is None) or (not AuthHandler.verify_password(login_password, user['password'])):
         raise HTTPException(status_code=401, detail='Invalid email and/or password')
 
     token = AuthHandler.encode_token(user['email'])
@@ -56,7 +72,7 @@ def login(db: Session, login_details: Login):
 
 @app.get('/protected')
 def protected(email=Depends(AuthHandler.auth_wrapper)):
-    return { 'Email': email }
+    return { 'Email': email } """
 
 
 #app.include_router(LoginRouter.router, prefix("/login"), tags = ["login"])

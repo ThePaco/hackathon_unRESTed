@@ -1,14 +1,17 @@
 import datetime
 import hashlib
 import uuid
+from sqlalchemy import true
 from sqlalchemy.orm import Session
+from model.Schemas import CreateUser
+from model.Schemas import Login
 
 from model import Models
 from model import Schemas
 
 #library of functions for creating, updating, searching and deleting db entries
 def createUser(db: Session, user: Schemas.CreateUser):
-    passw_encoded = user.password.encode()
+    #passw_encoded = user.password.encode()
     #password_sha256 = hashlib.sha256(passw_encoded).hexdigest()
     public_id = str(uuid.uuid4())
     dbUser = Models.Person(publicId = public_id, firstName = user.firstName, lastName = user.lastName, isAdmin = False, role = user.role, teamId = user.teamId, email = user.email, password = user.password)
@@ -22,11 +25,17 @@ def updateUserTeam(db: Session, user: Schemas.UpdateUserTeam):
     db.commit()
     return dbUser
 
+def promoteUser(db: Session, userPublicId: str):
+    dbUser = db.query(Models.Person).filter(Models.Person.publicId == userPublicId).first()
+    dbUser.isAdmin = 1
+    db.commit()
+    return dbUser
+
 def getAllUsers(db: Session):
     return db.query(Models.Person).all()
 
-def getUserByID(db: Session, user: Schemas.GetUserById):
-    return db.query(Models.Person).filter(Models.Person.publicId == user.publicId).first()
+def getUserByID(db: Session, publicId: str):
+    return db.query(Models.Person).filter(Models.Person.publicId == publicId).first()
 
 def deleteUser(db: Session, user: Schemas.GetUserById):
     dbUser = db.query(Models.Person).filter(Models.Person.publicId == user.publicId).first()
@@ -155,3 +164,10 @@ def getAllEquipment(db : Session):
 
 def getEquipmentByID(db : Session, publicId: str):
     return db.query(Models.Equipment).filter(Models.Equipment.publicId == publicId).first()
+
+
+def userLogin(db : Session, user : CreateUser):
+    return db.query(Models.Person).filter(
+      Models.Person.email == user.email,
+      Models.Person.password == user.password
+      ).first()
