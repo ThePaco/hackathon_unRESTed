@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.model.Schemas import CreateRoom
+from model.Schemas import CreateRoom
 from model.Schemas import PatchRoom
 from model import Models
 from model import DBoperations
