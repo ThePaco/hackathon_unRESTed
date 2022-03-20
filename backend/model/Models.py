@@ -1,7 +1,7 @@
-from xmlrpc.client import DateTime
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Time
 from sqlalchemy.orm import relationship
 import datetime
+#from sqlite3 import Time
 
 
 from .Database import Base
