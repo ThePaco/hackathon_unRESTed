@@ -35,11 +35,7 @@ function App() {
                 <Route
                   path='/room-form'
                   element={
-                    <RoomForm
-                      goBack={
-                        (floor) => console.log('hi')
-                      }
-                    />
+                    <RoomForm />
                   }
                 />
               </Routes>

@@ -4,33 +4,63 @@ import './RoomForm.scss';
 import M from 'materialize-css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-// import "materialize-css/dist/css/materialize.min.css";
-// import "materialize-css/dist/js/materialize.min.js";
 
-// import { Container, DatePicker } from "react-materialize";
+const timeFormatter = (hour, minutes) => {
+   return `${hour}:${minutes}`;
+}
+//2022-03-19 19:56:21
+const dateTimeParser = (dateTime) => {
+   const [date, timeUgly] = dateTime.split();
+   const [hour, minute, second] = time.split(":");
+   const time = timeFormatter(hour, minute);
+   return {date, time};
+}
 
-const RoomForm = (props) => {
+const toApiTimeParser = (date, time) => {
+  // console.log("datePicker: ");
+   const year = date.getYear();
+   const month = date.getMonth();
+
+
+}
+
+const RoomForm = () => {
 
   const navigate = useNavigate();
 
   useEffect(() => {
 
     var elems = document.querySelectorAll('.datepicker');
-    var elems2 = document.querySelectorAll('.timepicker');
+    var timePick1 = document.getElementById('timepicker1');
+    var timePick2 = document.getElementById('timepicker2');
     M.Datepicker.init(elems, {
       defaultDate: new Date(),
       container: "body",
       onSelect: function(date) {
+         toApiTimeParser(date);
         setMyDate(date);
       },
       autoClose: true
     });
 
-    M.Timepicker.init(elems2, {
+    M.Timepicker.init(timePick1, {
       defaultDate: new Date(),
       container: "body",
-      onSelect: function(time) {
-        setTimeStart(time);
+      twelveHour: false,
+      onSelect: function(hour, minute) {
+         console.log(hour, minute);
+        setTimeStart(timeFormatter(hour, minute));
+      },
+      autoClose: true
+    });
+
+    M.Timepicker.init(timePick2, {
+      defaultDate: new Date(),
+      container: "body",
+      twelveHour: false,
+      onSelect: function(hour, minute) {
+         console.log(hour, minute)
+        setTimeEnd(timeFormatter(hour, minute));
       },
       autoClose: true
     });
@@ -47,7 +77,8 @@ const RoomForm = (props) => {
   let timeNow = new Date().toLocaleDateString();
 
   const [myDate, setMyDate] = useState(timeNow);
-  const [timeStart, setTimeStart] = useState();
+  const [timeStart, setTimeStart] = useState('start');
+  const [timeEnd, setTimeEnd] = useState('end');
 
   function handleChange(event) {
     console.log(event)
@@ -93,6 +124,7 @@ const RoomForm = (props) => {
       <div className="time-wrapper">
         <input
           type="text"
+          id="timepicker1"
           className="timepicker"
           name="time-start"
           value={timeStart}
@@ -101,9 +133,10 @@ const RoomForm = (props) => {
         <i className="material-icons icon">remove</i>
       <input
         type="text"
+        id="timepicker2"
         className="timepicker"
-        name="time-start"
-        value={timeStart}
+        name="time-end"
+        value={timeEnd}
         onChange={()=>{}}
       />
     </div>
